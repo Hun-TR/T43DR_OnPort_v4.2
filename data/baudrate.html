@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BaudRate Ayarları - TEİAŞ EKLİM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">🏢</span>
+                <span class="brand-text">TEİAŞ EKLİM Sistemi</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">🏠 Ana Sayfa</a></li>
+                <li><a href="/ntp" class="nav-link">📡 NTP Ayarları</a></li>
+                <li><a href="/baudrate" class="nav-link active">⚙️ BaudRate</a></li>
+                <li><a href="/fault" class="nav-link">🛠️ Arıza Kayıtları</a></li>
+                <li><a href="/account" class="nav-link">👤 Hesap Ayarları</a></li>
+                <li><a href="/log" class="nav-link">📄 Log Kayıtları</a></li>
+                <li><button id="themeToggle" class="theme-toggle" title="Tema Değiştir">🌙</button></li>
+                <li><a href="/logout" class="nav-link logout">🚪 Çıkış</a></li>
+            </ul>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <div class="page-header">
+                <h1>⚙️ UART BaudRate Ayarları</h1>
+                <p class="page-description">
+                    Arka port (dsPIC33EP) ile olan seri iletişim hızını ayarlayın.
+                </p>
+            </div>
+            
+            <div id="message-container"></div>
+
+            <!-- Mevcut BaudRate Durumu -->
+            <div class="status-section">
+                <h3>📊 Mevcut İletişim Durumu</h3>
+                <div class="status-grid small">
+                    <div class="status-item compact">
+                        <span class="label">Aktif BaudRate:</span>
+                        <span id="currentBaudRate" class="value highlight">Yükleniyor...</span>
+                    </div>
+                    <div class="status-item compact">
+                        <span class="label">İletişim Durumu:</span>
+                        <span id="commStatus" class="value status-badge">Test ediliyor...</span>
+                    </div>
+                    <div class="status-item compact">
+                        <span class="label">Son Değişiklik:</span>
+                        <span id="lastChange" class="value">Yükleniyor...</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="baudrateForm" class="settings-form">
+                <div class="settings-section">
+                    <h3 class="section-title">🔧 BaudRate Seçimi</h3>
+                    
+                    <div class="baudrate-options">
+                        <div class="radio-group">
+                            <div class="radio-item">
+                                <input type="radio" id="baud_9600" name="baud" value="9600">
+                                <label for="baud_9600">
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">9600 bps</span>
+                                    <span class="radio-desc">Düşük hız - Uzun mesafe</span>
+                                </label>
+                            </div>
+                            
+                            <div class="radio-item">
+                                <input type="radio" id="baud_19200" name="baud" value="19200">
+                                <label for="baud_19200">
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">19200 bps</span>
+                                    <span class="radio-desc">Orta hız - Kararlı iletişim</span>
+                                </label>
+                            </div>
+                            
+                            <div class="radio-item">
+                                <input type="radio" id="baud_38400" name="baud" value="38400">
+                                <label for="baud_38400">
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">38400 bps</span>
+                                    <span class="radio-desc">Hızlı - Çoğu uygulama için ideal</span>
+                                </label>
+                            </div>
+                            
+                            <div class="radio-item">
+                                <input type="radio" id="baud_57600" name="baud" value="57600">
+                                <label for="baud_57600">
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">57600 bps</span>
+                                    <span class="radio-desc">Yüksek hız - Kısa mesafe</span>
+                                </label>
+                            </div>
+                            
+                            <div class="radio-item">
+                                <input type="radio" id="baud_115200" name="baud" value="115200">
+                                <label for="baud_115200">
+                                    <span class="radio-custom"></span>
+                                    <span class="radio-text">115200 bps</span>
+                                    <span class="radio-desc">Maksimum hız - Kablo kalitesi önemli</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn primary" id="saveBaudBtn">
+                        <span class="btn-text">⚙️ BaudRate'i Değiştir</span>
+                        <div class="btn-loader"></div>
+                    </button>
+                    <button type="button" class="btn secondary" id="testBaudBtn">
+                        🔍 İletişimi Test Et
+                    </button>
+                </div>
+            </form>
+
+            <div class="warning-box">
+                <h4>⚠️ Dikkat</h4>
+                <ul>
+                    <li><strong>BaudRate değişikliği anında uygulanır</strong> ve arka port ile iletişimin kesilmesine neden olabilir</li>
+                    <li>Her iki cihazın da aynı hızı desteklediğinden emin olun</li>
+                    <li>Değişiklikten sonra sistem otomatik olarak yeni hızda iletişim kurmaya çalışacaktır</li>
+                    <li>Sorun yaşanması durumunda cihazı yeniden başlatmayı deneyin</li>
+                </ul>
+            </div>
+
+            <!-- Test Sonucu -->
+            <div id="testResults" class="test-results" style="display: none;">
+                <h4>🔍 İletişim Test Sonuçları</h4>
+                <div id="testContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

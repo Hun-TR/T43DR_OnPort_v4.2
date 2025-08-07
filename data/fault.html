@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arıza Kayıtları - TEİAŞ EKLİM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">🏢</span>
+                <span class="brand-text">TEİAŞ EKLİM Sistemi</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">🏠 Ana Sayfa</a></li>
+                <li><a href="/ntp" class="nav-link">📡 NTP Ayarları</a></li>
+                <li><a href="/baudrate" class="nav-link">⚙️ BaudRate</a></li>
+                <li><a href="/fault" class="nav-link active">🛠️ Arıza Kayıtları</a></li>
+                <li><a href="/account" class="nav-link">👤 Hesap Ayarları</a></li>
+                <li><a href="/log" class="nav-link">📄 Log Kayıtları</a></li>
+                <li><button id="themeToggle" class="theme-toggle" title="Tema Değiştir">🌙</button></li>
+                <li><a href="/logout" class="nav-link logout">🚪 Çıkış</a></li>
+            </ul>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <div class="page-header">
+                <h1>🛠️ Arıza Kayıtları Sistemi</h1>
+                <p class="page-description">
+                    dsPIC33EP işlemcisinden arıza kayıtlarını sorgulayın ve inceleyin.
+                </p>
+            </div>
+
+            <!-- Kontrol Paneli -->
+            <div class="control-panel">
+                <h3>📋 Arıza Sorgu Kontrolü</h3>
+                <div class="control-buttons">
+                    <button id="firstFaultBtn" class="btn primary">
+                        <span class="btn-icon">🚀</span>
+                        <span class="btn-text">İlk Arıza Kaydını Al</span>
+                    </button>
+                    <button id="nextFaultBtn" class="btn secondary">
+                        <span class="btn-icon">➡️</span>
+                        <span class="btn-text">Sonraki Arıza Kaydı</span>
+                    </button>
+                    <button id="refreshFaultBtn" class="btn info">
+                        <span class="btn-icon">🔄</span>
+                        <span class="btn-text">Yenile</span>
+                    </button>
+                    <button id="exportFaultBtn" class="btn success">
+                        <span class="btn-icon">📥</span>
+                        <span class="btn-text">Dışa Aktar</span>
+                    </button>
+                    <button id="clearFaultBtn" class="btn danger">
+                        <span class="btn-icon">🗑️</span>
+                        <span class="btn-text">Ekranı Temizle</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Arıza Durumu -->
+            <div class="status-section">
+                <h3>📊 Arıza Sistemi Durumu</h3>
+                <div class="status-grid small">
+                    <div class="status-item compact">
+                        <span class="label">Bağlantı Durumu:</span>
+                        <span id="faultCommStatus" class="value status-badge">Test ediliyor...</span>
+                    </div>
+                    <div class="status-item compact">
+                        <span class="label">Toplam Kayıt:</span>
+                        <span id="totalFaults" class="value">0</span>
+                    </div>
+                    <div class="status-item compact">
+                        <span class="label">Son Sorgu:</span>
+                        <span id="lastQuery" class="value">Henüz sorgu yapılmadı</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Arıza Kayıtları -->
+            <div class="fault-section">
+                <div class="section-header">
+                    <h3>📄 Arıza Kayıtları</h3>
+                    <div class="section-controls">
+                        <button id="autoRefreshToggle" class="toggle-btn" data-active="false">
+                            <span class="toggle-icon">⏸️</span>
+                            <span class="toggle-text">Otomatik Yenileme</span>
+                        </button>
+                        <select id="filterLevel" class="filter-select">
+                            <option value="all">Tümü</option>
+                            <option value="critical">Kritik</option>
+                            <option value="warning">Uyarı</option>
+                            <option value="info">Bilgi</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div id="faultContent" class="fault-content">
+                    <div class="empty-state">
+                        <div class="empty-icon">📝</div>
+                        <h4>Arıza kaydı bulunamadı</h4>
+                        <p>Arıza kayıtlarını görüntülemek için yukarıdaki butonları kullanın.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-box">
+                <h4>💡 Kullanım Kılavuzu</h4>
+                <ul>
+                    <li><strong>İlk Arıza Kaydını Al:</strong> En eski arıza kaydından başlayarak sıralı olarak kayıtları getirir</li>
+                    <li><strong>Sonraki Arıza Kaydı:</strong> Sıradaki arıza kaydını getirir</li>
+                    <li><strong>Dışa Aktar:</strong> Tüm arıza kayıtlarını metin dosyası olarak indirir</li>
+                    <li><strong>Otomatik Yenileme:</strong> Belirtilen aralıklarla otomatik olarak yeni kayıtları kontrol eder</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NTP Ayarları - TEİAŞ EKLİM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">🏢</span>
+                <span class="brand-text">TEİAŞ EKLİM Sistemi</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">🏠 Ana Sayfa</a></li>
+                <li><a href="/ntp" class="nav-link active">📡 NTP Ayarları</a></li>
+                <li><a href="/baudrate" class="nav-link">⚙️ BaudRate</a></li>
+                <li><a href="/fault" class="nav-link">🛠️ Arıza Kayıtları</a></li>
+                <li><a href="/account" class="nav-link">👤 Hesap Ayarları</a></li>
+                <li><a href="/log" class="nav-link">📄 Log Kayıtları</a></li>
+                <li><button id="themeToggle" class="theme-toggle" title="Tema Değiştir">🌙</button></li>
+                <li><a href="/logout" class="nav-link logout">🚪 Çıkış</a></li>
+            </ul>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="card">
+            <div class="page-header">
+                <h1>📡 NTP Sunucu Ayarları</h1>
+                <p class="page-description">
+                    Arka porttaki NTP kartı için zaman sunucusu ayarlarını yapılandırın.
+                </p>
+            </div>
+            
+            <div id="message-container"></div>
+
+            <!-- Mevcut NTP Durumu -->
+            <div class="status-section">
+                <h3>📊 Mevcut NTP Durumu</h3>
+                <div class="status-grid small">
+                    <div class="status-item compact">
+                        <span class="label">Birincil Sunucu:</span>
+                        <span id="currentServer1" class="value">Yükleniyor...</span>
+                    </div>
+                    <div class="status-item compact">
+                        <span class="label">Yedek Sunucu:</span>
+                        <span id="currentServer2" class="value">Yükleniyor...</span>
+                    </div>
+                    <div class="status-item compact">
+                        <span class="label">Son Güncelleme:</span>
+                        <span id="lastUpdate" class="value">Yükleniyor...</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="ntpForm" class="settings-form">
+                <div class="settings-section">
+                    <h3 class="section-title">⚙️ NTP Sunucu Yapılandırması</h3>
+                    
+                    <div class="form-group">
+                        <label for="ntpServer1" class="required">Birincil NTP Sunucusu</label>
+                        <input 
+                            type="text" 
+                            id="ntpServer1" 
+                            name="ntpServer1" 
+                            placeholder="Örn: 192.168.1.180" 
+                            required
+                            pattern="^(\d{1,3}\.){3}\d{1,3}$|^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                            autocomplete="off"
+                        >
+                        <small class="form-help">Ana NTP sunucusunun IP adresi veya alan adı</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ntpServer2" class="required">Yedek NTP Sunucusu</label>
+                        <input 
+                            type="text" 
+                            id="ntpServer2" 
+                            name="ntpServer2" 
+                            placeholder="Örn: 192.168.2.180" 
+                            required
+                            pattern="^(\d{1,3}\.){3}\d{1,3}$|^[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                            autocomplete="off"
+                        >
+                        <small class="form-help">Birincil sunucu erişilemezse kullanılacak yedek sunucu</small>
+                    </div>
+
+                    <div class="preset-servers">
+                        <h4>🔧 Önerilen Sunucular</h4>
+                        <div class="preset-buttons">
+                            <button type="button" class="preset-btn" data-server1="time.nist.gov" data-server2="pool.ntp.org">
+                                🌐 Genel NTP
+                            </button>
+                            <button type="button" class="preset-btn" data-server1="192.168.1.180" data-server2="192.168.2.180">
+                                🏢 TEİAŞ Standart
+                            </button>
+                            <button type="button" class="preset-btn" data-server1="10.0.0.1" data-server2="10.0.0.2">
+                                🔧 Test Sunucuları
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="submit" class="btn primary" id="saveNtpBtn">
+                        <span class="btn-text">📡 Ayarları Arka Porta Gönder</span>
+                        <div class="btn-loader"></div>
+                    </button>
+                    <button type="button" class="btn secondary" id="testConnectionBtn">
+                        🔍 Bağlantıyı Test Et
+                    </button>
+                </div>
+            </form>
+
+            <div class="info-box">
+                <h4>💡 Önemli Bilgiler</h4>
+                <ul>
+                    <li>Bu ayarlar kaydedildikten sonra UART üzerinden arka porttaki cihaza gönderilecektir</li>
+                    <li>Değişiklikler anında uygulanır ve sistem otomatik olarak yeni sunucuları kullanmaya başlar</li>
+                    <li>NTP sunucularının ağınızdan erişilebilir olduğundan emin olun</li>
+                    <li>İki farklı sunucu kullanılması sistem güvenilirliğini artırır</li>
+                </ul>
+            </div>
+
+            <!-- Test Sonucu -->
+            <div id="testResults" class="test-results" style="display: none;">
+                <h4>🔍 Bağlantı Test Sonuçları</h4>
+                <div id="testContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

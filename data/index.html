@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ana Sayfa - TEİAŞ EKLİM</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <span class="brand-icon">🏢</span>
+                <span class="brand-text">TEİAŞ EKLİM Sistemi</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link active">🏠 Ana Sayfa</a></li>
+                <li><a href="/ntp" class="nav-link">📡 NTP Ayarları</a></li>
+                <li><a href="/baudrate" class="nav-link">⚙️ BaudRate</a></li>
+                <li><a href="/fault" class="nav-link">🛠️ Arıza Kayıtları</a></li>
+                <li><a href="/account" class="nav-link">👤 Hesap Ayarları</a></li>
+                <li><a href="/log" class="nav-link">📄 Log Kayıtları</a></li>
+                <li><button id="themeToggle" class="theme-toggle" title="Tema Değiştir">🌙</button></li>
+                <li><a href="/logout" class="nav-link logout">🚪 Çıkış</a></li>
+            </ul>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Bağlantı Durumu Göstergesi -->
+    <div id="connectionStatus" class="connection-status">
+        <span id="connectionIndicator" class="status-indicator">🔄 Bağlanıyor...</span>
+    </div>
+
+    <div class="container">
+        <div class="card main-dashboard">
+            <div class="dashboard-header">
+                <h1>Sistem Gösterge Paneli</h1>
+                <div class="last-update">
+                    Son Güncelleme: <span id="lastUpdateTime">--:--:--</span>
+                </div>
+            </div>
+            
+            <div class="status-grid">
+                <div class="status-item time-info">
+                    <div class="status-header">
+                        <h3>🕐 Zaman Bilgileri</h3>
+                    </div>
+                    <div class="status-content">
+                        <div class="info-row">
+                            <span class="label">Tarih & Saat:</span>
+                            <span id="datetime" class="value">Yükleniyor...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Veri Durumu:</span>
+                            <span id="dataStatus" class="value status-badge">Yükleniyor...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Veri Kaynağı:</span>
+                            <span class="value">Arka Port (SEL2488)</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="status-item device-info">
+                    <div class="status-header">
+                        <h3>💻 Cihaz Bilgileri</h3>
+                    </div>
+                    <div class="status-content">
+                        <div class="info-row">
+                            <span class="label">Cihaz Adı:</span>
+                            <span id="deviceName" class="value">Yükleniyor...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Trafo Merkezi:</span>
+                            <span id="tmName" class="value">Yükleniyor...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">IP Adresi:</span>
+                            <span id="deviceIP" class="value">Yükleniyor...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Çalışma Süresi:</span>
+                            <span id="uptime" class="value">Yükleniyor...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="status-item system-status">
+                    <div class="status-header">
+                        <h3>🌐 Sistem Durumu</h3>
+                    </div>
+                    <div class="status-content">
+                        <div class="info-row">
+                            <span class="label">Ethernet:</span>
+                            <span id="ethernetStatus" class="value status-badge">Yükleniyor...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">NTP Yapılandırma:</span>
+                            <span id="ntpConfigStatus" class="value status-badge">Yükleniyor...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">Arka Port Bağlantı:</span>
+                            <span id="backendStatus" class="value status-badge">Yükleniyor...</span>
+                        </div>
+                        <div class="info-row">
+                            <span class="label">UART Baud:</span>
+                            <span id="baudRate" class="value">Yükleniyor...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hızlı Eylemler -->
+            <div class="quick-actions">
+                <h3>⚡ Hızlı Eylemler</h3>
+                <div class="action-buttons">
+                    <a href="/ntp" class="action-btn">
+                        <span class="action-icon">📡</span>
+                        <span class="action-text">NTP Ayarları</span>
+                    </a>
+                    <a href="/baudrate" class="action-btn">
+                        <span class="action-icon">⚙️</span>
+                        <span class="action-text">BaudRate</span>
+                    </a>
+                    <a href="/fault" class="action-btn">
+                        <span class="action-icon">🛠️</span>
+                        <span class="action-text">Arıza Sorgula</span>
+                    </a>
+                    <a href="/log" class="action-btn">
+                        <span class="action-icon">📄</span>
+                        <span class="action-text">Log Kayıtları</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="developer-info">
+                <h4>🛠️ Sistem Geliştiricileri</h4>
+                <p><strong>Mehmet DEMİRBİLEK & Hüseyin ÇİFTCİ</strong></p>
+                <p class="version-info">TEİAŞ EKLİM - 2025 | v1.0.0</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
